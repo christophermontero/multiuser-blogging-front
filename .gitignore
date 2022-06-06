@@ -105,3 +105,4 @@ dist
 
 # Optional REPL history
 .next
+next.config.js

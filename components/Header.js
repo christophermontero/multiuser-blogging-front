@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import Link from 'next/link';
+import { APP_NAME } from '../config';
 import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink
@@ -17,20 +18,22 @@ const Header = () => {
 
   return (
     <div>
-      <Navbar color="faded" light expand="sm">
-        <NavbarBrand className="ml-auto" href="/">
-          Reactstrap
-        </NavbarBrand>
+      <Navbar color="light" light expand="sm">
+        <Link href="/">
+          <NavLink className="text-dark fw-bold">{APP_NAME}</NavLink>
+        </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              <Link href="/signin">
+                <NavLink>Signin</NavLink>
+              </Link>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
+              <Link href="/signout">
+                <NavLink>Signout</NavLink>
+              </Link>
             </NavItem>
           </Nav>
         </Collapse>
