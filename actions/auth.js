@@ -10,7 +10,6 @@ export const signup = (user) => {
     },
     body: JSON.stringify(user)
   };
-  console.log(fetchOpt.body);
   return fetch(`${API}/auth/signup`, fetchOpt)
     .then((response) => {
       return response.json();

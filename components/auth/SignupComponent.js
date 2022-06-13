@@ -49,10 +49,19 @@ const SignupComponent = () => {
     });
   };
 
+  const showLoading = () =>
+    loading ? <div className="alert alert-info">Loading...</div> : '';
+
+  const showError = () =>
+    error ? <div className="alert alert-danger">{error}</div> : '';
+
+  const showMessage = () =>
+    message ? <div className="alert alert-info">{message}</div> : '';
+
   const signupForm = () => {
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
+        <div className="form-group mb-2">
           <input
             value={name}
             onChange={handleChange('name')}
@@ -61,7 +70,7 @@ const SignupComponent = () => {
             placeholder="Type your name"
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mb-2">
           <input
             value={email}
             onChange={handleChange('email')}
@@ -70,7 +79,7 @@ const SignupComponent = () => {
             placeholder="Type your email"
           />
         </div>
-        <div className="form-group">
+        <div className="form-group mb-4">
           <input
             value={password}
             onChange={handleChange('password')}
@@ -86,7 +95,14 @@ const SignupComponent = () => {
     );
   };
 
-  return <>{signupForm()}</>;
+  return (
+    <>
+      {showError()}
+      {showLoading()}
+      {showMessage()}
+      {showForm && signupForm()}
+    </>
+  );
 };
 
 export default SignupComponent;

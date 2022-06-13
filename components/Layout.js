@@ -6,7 +6,6 @@ const Layout = ({ children }) => {
     <React.Fragment>
       <Header />
       {children}
-      <h2>footer</h2>
     </React.Fragment>
   );
 };
