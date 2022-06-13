@@ -1,11 +1,11 @@
 import Layout from '../components/Layout';
 
-const Signout = () => {
+const Signup = () => {
   return (
     <Layout>
-      <h2>Signout page</h2>
+      <h2>Signup page</h2>
     </Layout>
   );
 };
 
-export default Signout;
+export default Signup;

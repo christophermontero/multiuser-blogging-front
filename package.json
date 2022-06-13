@@ -22,7 +22,9 @@
   "homepage": "https://github.com/christophermontero/multiuser-blogging-front#readme",
   "dependencies": {
     "bootstrap": "^5.1.3",
+    "isomorphic-fetch": "^3.0.0",
     "next": "^12.1.6",
+    "node-fetch": "^3.2.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "reactstrap": "^9.0.3"
