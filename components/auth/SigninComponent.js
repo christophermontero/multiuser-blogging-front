@@ -1,9 +1,9 @@
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { signup } from '../../actions/auth';
+import { authenticate, signin } from '../../actions/auth';
 
-const SignupComponent = () => {
+const SigninComponent = () => {
   const [user, setUser] = useState({
-    name: '',
     email: '',
     password: '',
     error: '',
@@ -11,14 +11,15 @@ const SignupComponent = () => {
     loading: false,
     showForm: true
   });
+  const router = useRouter();
 
-  const { name, email, password, error, loading, message, showForm } = user;
+  const { email, password, error, loading, message, showForm } = user;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setUser({ ...user, loading: true, error: false });
-    const u = { name, email, password };
-    signup(u).then((data) => {
+    const u = { email, password };
+    signin(u).then((data) => {
       if (data.error) {
         setUser({
           ...user,
@@ -26,15 +27,8 @@ const SignupComponent = () => {
           loading: false
         });
       } else {
-        setUser({
-          ...user,
-          name: '',
-          email: '',
-          password: '',
-          error: '',
-          loading: false,
-          message: data.message,
-          showForm: false
+        authenticate(data, () => {
+          router.push(`/`);
         });
       }
     });
@@ -57,18 +51,9 @@ const SignupComponent = () => {
   const showMessage = () =>
     message ? <div className="alert alert-info">{message}</div> : '';
 
-  const signupForm = () => {
+  const signinForm = () => {
     return (
       <form onSubmit={handleSubmit}>
-        <div className="form-group mb-2">
-          <input
-            value={name}
-            onChange={handleChange('name')}
-            type="text"
-            className="form-control"
-            placeholder="Type your name"
-          />
-        </div>
         <div className="form-group mb-2">
           <input
             value={email}
@@ -88,7 +73,7 @@ const SignupComponent = () => {
           />
         </div>
         <div>
-          <button className="btn btn-primary">Signup</button>
+          <button className="btn btn-primary">Signin</button>
         </div>
       </form>
     );
@@ -99,9 +84,9 @@ const SignupComponent = () => {
       {showError()}
       {showLoading()}
       {showMessage()}
-      {showForm && signupForm()}
+      {showForm && signinForm()}
     </>
   );
 };
 
-export default SignupComponent;
+export default SigninComponent;
