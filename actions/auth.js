@@ -34,6 +34,19 @@ export const signin = (user) => {
     .catch((err) => console.log(err));
 };
 
+export const signout = (next) => {
+  removeCookie('token');
+  removeLocalStorage('user');
+  next();
+  return fetch(`${API}/auth/signout`, {
+    method: 'GET'
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => console.log(err));
+};
+
 export const setCookie = (key, value) => {
   if (typeof window !== 'undefined') {
     cookie.set(key, value, {
@@ -44,7 +57,7 @@ export const setCookie = (key, value) => {
 
 export const getCookie = (key) => {
   if (typeof window !== 'undefined') {
-    cookie.get(key);
+    return cookie.get(key);
   }
 };
 
