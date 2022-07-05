@@ -32,7 +32,11 @@ const SigninComponent = () => {
         });
       } else {
         authenticate(data, () => {
-          router.push(`/`);
+          if (isAuth() && isAuth().role === 1) {
+            router.push(`/admin`);
+          } else {
+            router.push(`/user`);
+          }
         });
       }
     });
@@ -77,7 +81,7 @@ const SigninComponent = () => {
           />
         </div>
         <div>
-          <button className="btn btn-primary">Signin</button>
+          <button className="btn btn-primary">Sign</button>
         </div>
       </form>
     );

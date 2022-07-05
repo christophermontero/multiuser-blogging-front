@@ -35,14 +35,19 @@ export const signin = (user) => {
 };
 
 export const signout = (next) => {
+  const token = getCookie('token');
+  const authHeader = `Bearer ${token}`;
   removeCookie('token');
   removeLocalStorage('user');
   next();
   return fetch(`${API}/auth/signout`, {
-    method: 'GET'
+    method: 'GET',
+    headers: {
+      Authorization: authHeader
+    }
   })
     .then((response) => {
-      console.log(response);
+      console.log('Signout success!');
     })
     .catch((err) => console.log(err));
 };

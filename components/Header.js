@@ -47,7 +47,7 @@ const Header = () => {
                 <NavLink
                   onClick={() =>
                     signout(() => {
-                      router.replace('/signin');
+                      router.replace(`/signin`);
                     })
                   }
                 >
