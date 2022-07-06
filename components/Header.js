@@ -43,17 +43,34 @@ const Header = () => {
               </>
             )}
             {isAuth() && (
-              <NavItem>
-                <NavLink
-                  onClick={() =>
-                    signout(() => {
-                      router.replace(`/signin`);
-                    })
-                  }
-                >
-                  Signout
-                </NavLink>
-              </NavItem>
+              <>
+                {isAuth() && isAuth().role === 1 ? (
+                  <NavItem>
+                    {console.log(isAuth().role)}
+                    <Link href="/admin">
+                      <NavLink>{`${isAuth().name}'s Dashboard`}</NavLink>
+                    </Link>
+                  </NavItem>
+                ) : (
+                  <NavItem>
+                    {console.log(isAuth().role)}
+                    <Link href="/user">
+                      <NavLink>{`${isAuth().name}'s Dashboard`}</NavLink>
+                    </Link>
+                  </NavItem>
+                )}
+                <NavItem>
+                  <NavLink
+                    onClick={() =>
+                      signout(() => {
+                        router.replace(`/signin`);
+                      })
+                    }
+                  >
+                    Signout
+                  </NavLink>
+                </NavItem>
+              </>
             )}
           </Nav>
         </Collapse>
