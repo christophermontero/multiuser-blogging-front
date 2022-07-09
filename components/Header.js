@@ -10,6 +10,7 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap';
+import NProgress from 'nprogress';
 import { useRouter } from 'next/router';
 
 const Header = () => {
@@ -18,6 +19,10 @@ const Header = () => {
     setIsOpen(!isOpen);
   };
   const router = useRouter();
+
+  router.events.on('routeChangeStart', (url) => NProgress.start());
+  router.events.on('routeChangeComplete', (url) => NProgress.done());
+  router.events.on('routeChangeError', (url) => NProgress.done());
 
   return (
     <div>
