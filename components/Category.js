@@ -26,7 +26,7 @@ const Category = () => {
   const loadCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
-        console.log(data.error);
+        console.log('Load categories', data.error);
       } else {
         setValues({ ...values, categories: data });
       }
@@ -58,14 +58,11 @@ const Category = () => {
   const deleteCategory = (slug) => {
     removeCategory(slug, token).then((data) => {
       if (data.error) {
-        console.log(data.error);
+        console.log('Delete category', data.error);
       } else {
         setValues({
           ...values,
-          error: false,
-          success: false,
-          name: '',
-          removed: !removed,
+          removed: true,
           reload: !reload
         });
       }
@@ -76,14 +73,15 @@ const Category = () => {
     e.preventDefault();
     createCategory({ name }, token).then((data) => {
       if (data.error) {
-        setValues({ ...values, error: data.error, success: false });
+        setValues({
+          ...values,
+          error: data.error
+        });
       } else {
         setValues({
           ...values,
-          error: false,
-          success: false,
           name: '',
-          removed: !removed,
+          success: true,
           reload: !reload
         });
       }
@@ -93,10 +91,7 @@ const Category = () => {
   const handleChange = (e) => {
     setValues({
       ...values,
-      name: e.target.value,
-      error: false,
-      success: false,
-      removed: ''
+      name: e.target.value
     });
   };
 
@@ -113,7 +108,7 @@ const Category = () => {
   };
 
   const mouseMoveHandler = () => {
-    setValues({ ...values, error: false, success: false, removed: '' });
+    setValues({ ...values, error: false, success: false, removed: false });
   };
 
   const newCategoryForm = () => {
