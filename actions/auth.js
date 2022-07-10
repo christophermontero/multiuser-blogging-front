@@ -36,14 +36,13 @@ export const signin = (user) => {
 
 export const signout = (next) => {
   const token = getCookie('token');
-  const authHeader = `Bearer ${token}`;
   removeCookie('token');
   removeLocalStorage('user');
   next();
   return fetch(`${API}/auth/signout`, {
     method: 'GET',
     headers: {
-      Authorization: authHeader
+      Authorization: `Bearer ${token}`
     }
   })
     .then((response) => {
