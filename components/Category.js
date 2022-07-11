@@ -116,7 +116,7 @@ const Category = () => {
     return (
       <form onSubmit={clickSubmit}>
         <div className="form-group">
-          <label className="text-muted mb-2">Name</label>
+          <label className="text-muted mb-2">Category name</label>
           <input
             className="form-control"
             type="text"

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getCookie } from '../actions/auth';
+import { createTag, getTags, removeTag } from '../actions/tag';
 
 const Tag = () => {
   const [values, setValues] = useState({
@@ -109,7 +110,7 @@ const Tag = () => {
     return (
       <form onSubmit={clickSubmit}>
         <div className="form-group">
-          <label className="text-muted mb-2">Name</label>
+          <label className="text-muted mb-2">Tag name</label>
           <input
             className="form-control"
             type="text"
