@@ -2,41 +2,12 @@ import React, { useEffect, useRef } from 'react';
 
 function Editor({ onChange, editorLoaded, value }) {
   const editorRef = useRef();
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
-  const editorConfig = {
-    toolbar: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      'underline',
-      'strikethrough',
-      '|',
-      'fontSize',
-      'fontColor',
-      'fontBackgroundColor',
-      '|',
-      'alignment',
-      'outdent',
-      'indent',
-      'bulletedList',
-      'numberedList',
-      'blockQuote',
-      '|',
-      'link',
-      'insertTable',
-      'mediaEmbed',
-      '|',
-      'undo',
-      'redo'
-    ],
-    placeholder: 'Click to start typing'
-  };
+  const { CKEditor, CustomEditor } = editorRef.current || {};
 
   useEffect(() => {
     editorRef.current = {
       CKEditor: require('@ckeditor/ckeditor5-react').CKEditor,
-      ClassicEditor: require('@ckeditor/ckeditor5-build-classic')
+      CustomEditor: require('../ckeditor5-custom-build/build/ckeditor')
     };
   }, []);
 
@@ -44,8 +15,7 @@ function Editor({ onChange, editorLoaded, value }) {
     <div>
       {editorLoaded ? (
         <CKEditor
-          editor={ClassicEditor}
-          config={editorConfig}
+          editor={CustomEditor}
           data={value}
           onChange={(event, editor) => {
             const data = editor.getData();
