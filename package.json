@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/christophermontero/multiuser-blogging-front#readme",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^34.2.0",
+    "@ckeditor/ckeditor5-react": "^5.0.2",
     "bootstrap": "^5.1.3",
     "isomorphic-fetch": "^3.0.0",
     "js-cookie": "^3.0.1",
