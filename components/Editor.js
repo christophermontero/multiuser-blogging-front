@@ -1,8 +1,37 @@
 import React, { useEffect, useRef } from 'react';
 
-function Editor({ onChange, editorLoaded, name, value }) {
+function Editor({ onChange, editorLoaded, value }) {
   const editorRef = useRef();
   const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const editorConfig = {
+    toolbar: [
+      'heading',
+      '|',
+      'bold',
+      'italic',
+      'underline',
+      'strikethrough',
+      '|',
+      'fontSize',
+      'fontColor',
+      'fontBackgroundColor',
+      '|',
+      'alignment',
+      'outdent',
+      'indent',
+      'bulletedList',
+      'numberedList',
+      'blockQuote',
+      '|',
+      'link',
+      'insertTable',
+      'mediaEmbed',
+      '|',
+      'undo',
+      'redo'
+    ],
+    placeholder: 'Click to start typing'
+  };
 
   useEffect(() => {
     editorRef.current = {
@@ -15,9 +44,8 @@ function Editor({ onChange, editorLoaded, name, value }) {
     <div>
       {editorLoaded ? (
         <CKEditor
-          type=""
-          name={name}
           editor={ClassicEditor}
+          config={editorConfig}
           data={value}
           onChange={(event, editor) => {
             const data = editor.getData();
