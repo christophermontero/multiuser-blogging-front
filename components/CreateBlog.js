@@ -3,8 +3,15 @@ import { useEffect, useState } from 'react';
 import Editor from './Editor';
 
 const CreateBlog = ({ router }) => {
+  const blogLocalStore = () => {
+    if (typeof window !== 'undefined' && localStorage.getItem('blog')) {
+      return JSON.parse(localStorage.getItem('blog'));
+    } else {
+      return false;
+    }
+  };
   const [editorLoaded, setEditorLoaded] = useState(false);
-  const [body, setBody] = useState({});
+  const [body, setBody] = useState(blogLocalStore());
   const [values, setValues] = useState({
     error: '',
     sizeError: '',
@@ -21,14 +28,26 @@ const CreateBlog = ({ router }) => {
     setEditorLoaded(true);
   }, []);
 
+  useEffect(() => {
+    setValues({ ...values, formData: new FormData() });
+  }, [router]);
+
   const handleChange = (name) => (e) => {
+    const value = name === 'photo' ? e.target.files[0] : e.target.value;
+    formData.append(name, value);
     setValues({
       ...values,
-      title: e.target.value
+      [name]: value,
+      formData,
+      error: ''
     });
   };
 
   const handleBody = (data) => {
+    formData.append('body', data);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('blog', JSON.stringify(data));
+    }
     setBody(data);
   };
 
