@@ -27,6 +27,10 @@ const Category = () => {
     getCategories().then((data) => {
       if (data.error) {
         console.log('Load categories', data.error);
+        setValues({
+          ...values,
+          error: data.error
+        });
       } else {
         setValues({ ...values, categories: data });
       }
@@ -58,7 +62,10 @@ const Category = () => {
   const deleteCategory = (slug) => {
     removeCategory(slug, token).then((data) => {
       if (data.error) {
-        console.log('Delete category', data.error);
+        setValues({
+          ...values,
+          error: data.error
+        });
       } else {
         setValues({
           ...values,
