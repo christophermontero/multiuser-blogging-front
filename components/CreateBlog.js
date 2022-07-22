@@ -30,8 +30,7 @@ const CreateBlog = ({ router }) => {
   });
 
   const token = getCookie('token');
-  const { error, sizeError, success, formData, title, hidePublishButton } =
-    values;
+  const { error, success, formData, title, photo } = values;
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -228,16 +227,26 @@ const CreateBlog = ({ router }) => {
             <div className="form-group pb-2">
               <h5>Featured image</h5>
               <hr />
-              <label className="btn btn-outline-info me-2">
-                Upload featured image
-                <input
-                  onChange={handleChange('photo')}
-                  type="file"
-                  accept="image/*"
-                  hidden
-                />
-              </label>
-              <small className="text-muted">Max size: 1 Mb</small>
+              <div>
+                <label className="btn btn-outline-info me-2">
+                  Upload featured image
+                  <input
+                    onChange={handleChange('photo')}
+                    type="file"
+                    accept="image/*"
+                    hidden
+                  />
+                </label>
+                {photo ? (
+                  <div className="p-1">
+                    <small className="text-muted">{photo.name}</small>
+                  </div>
+                ) : (
+                  <div className="p-1">
+                    <small className="text-muted">Max size: 1 Mb</small>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           <h3>Categories</h3>
