@@ -106,6 +106,7 @@ const CreateBlog = ({ router }) => {
 
   const publishBlog = (e) => {
     e.preventDefault();
+    if (body) formData.append('body', body);
     createBlog(formData, token).then((data) => {
       if (data.error) {
         setValues({
@@ -116,6 +117,7 @@ const CreateBlog = ({ router }) => {
         setValues({
           ...values,
           title: '',
+          photo: '',
           error: '',
           success: `A new blog titled ${data.title} was created`
         });
@@ -178,7 +180,7 @@ const CreateBlog = ({ router }) => {
             onChange={handleChange('title')}
           />
         </div>
-        <div className="form-group mb-2">
+        <div className="form-group mb-2 ckeditor">
           <Editor
             value={body}
             onChange={handleBody}
@@ -217,7 +219,7 @@ const CreateBlog = ({ router }) => {
   };
 
   return (
-    <div className="container-fluid" onMouseMove={mouseMoveHandler}>
+    <div className="container-fluid pb-2" onMouseMove={mouseMoveHandler}>
       {showError()}
       {showSuccess()}
       <div className="row">
