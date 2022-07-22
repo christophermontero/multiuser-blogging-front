@@ -22,7 +22,10 @@ const Tag = () => {
   const loadTags = () => {
     getTags().then((data) => {
       if (data.error) {
-        console.log('Load tags', data.error);
+        setValues({
+          ...values,
+          error: data.error
+        });
       } else {
         setValues({ ...values, tags: data });
       }
@@ -52,7 +55,10 @@ const Tag = () => {
   const deleteTag = (name) => {
     removeTag(name, token).then((data) => {
       if (data.error) {
-        console.log('Delete tag', data.error);
+        setValues({
+          ...values,
+          error: data.error
+        });
       } else {
         setValues({
           ...values,

@@ -38,7 +38,7 @@ const CreateBlog = ({ router }) => {
     initCategories();
     initTags();
     setValues({ ...values, formData: new FormData() });
-  }, [router]);
+  }, [success, router]);
 
   const initCategories = () => {
     getCategories().then((data) => {
@@ -195,8 +195,32 @@ const CreateBlog = ({ router }) => {
     );
   };
 
+  const showError = () => {
+    if (error)
+      return (
+        <div className="alert alert-danger" role="alert">
+          {error}
+        </div>
+      );
+  };
+
+  const showSuccess = () => {
+    if (success)
+      return (
+        <div className="alert alert-success" role="alert">
+          {success}
+        </div>
+      );
+  };
+
+  const mouseMoveHandler = () => {
+    setValues({ ...values, success: false });
+  };
+
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" onMouseMove={mouseMoveHandler}>
+      {showError()}
+      {showSuccess()}
       <div className="row">
         <div className="col-md-8">{createBlogForm()}</div>
         <div className="col-md-4">
@@ -224,8 +248,6 @@ const CreateBlog = ({ router }) => {
           {showTags}
         </div>
       </div>
-      {JSON.stringify(categories)}
-      {JSON.stringify(tags)}
     </div>
   );
 };

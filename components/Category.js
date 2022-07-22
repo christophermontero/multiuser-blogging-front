@@ -26,7 +26,6 @@ const Category = () => {
   const loadCategories = () => {
     getCategories().then((data) => {
       if (data.error) {
-        console.log('Load categories', data.error);
         setValues({
           ...values,
           error: data.error
