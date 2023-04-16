@@ -7,13 +7,23 @@ const Card = ({ blog }) => {
   const showBlogCategories = (blog) =>
       blog.categories.map((category, i) => (
         <Link key={i} href={`/categories/${category.slug}`}>
-          <a className="btn btn-primary mx-1 mt-3">{category.name}</a>
+          <a
+            className="btn btn-primary mx-1 mt-3"
+            style={{ textDecoration: 'none' }}
+          >
+            {category.name}
+          </a>
         </Link>
       )),
     showBlogTags = (blog) =>
       blog.tags.map((tag, i) => (
         <Link key={i} href={`/tags/${tag.slug}`}>
-          <a className="btn btn-outline-info mx-1 mt-3">{tag.name}</a>
+          <a
+            className="btn btn-outline-info mx-1 mt-3"
+            style={{ textDecoration: 'none' }}
+          >
+            {tag.name}
+          </a>
         </Link>
       ));
 
@@ -21,7 +31,7 @@ const Card = ({ blog }) => {
     <div className="lead pb-4">
       <header>
         <Link href={`/blogs/${blog.slug}`}>
-          <a>
+          <a style={{ textDecoration: 'none' }}>
             <h2 className="pt-3 pb-3 fw-bold">{blog.title}</h2>
           </a>
         </Link>
@@ -54,7 +64,12 @@ const Card = ({ blog }) => {
           <section>
             <div>{parse(blog.excerpt)}</div>
             <Link href={`/blogs/${blog.slug}`}>
-              <a className="btn btn-primary pt-2">Read more</a>
+              <a
+                className="btn btn-primary pt-2"
+                style={{ textDecoration: 'none' }}
+              >
+                Read more
+              </a>
             </Link>
           </section>
         </div>

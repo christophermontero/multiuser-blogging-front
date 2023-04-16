@@ -1,8 +1,22 @@
+import Head from 'next/head';
 import Link from 'next/link';
+import { withRouter } from 'next/router';
+import { listBlogsWithCategoriesAndTags } from '../../actions/blog';
 import Layout from '../../components/Layout';
 import Card from '../../components/blog/Card';
+import { APP_NAME, DOMAIN } from '../../config';
 
-const Blogs = ({ blogs, categories, tags, size }) => {
+const Blogs = ({ blogs, categories, tags, size, router }) => {
+  const head = () => (
+    <Head>
+      <title>Programming blogs and tutorials | {APP_NAME}</title>
+      <meta
+        name="description"
+        content="Programming blogs and tutorials for software developers"
+      />
+      <link rel="canonical" href={`${DOMAIN}/blogs`} />
+    </Head>
+  );
   const showAllBlogs = () =>
     blogs.map((blog, i) => (
       <article key={i}>
@@ -26,31 +40,34 @@ const Blogs = ({ blogs, categories, tags, size }) => {
     ));
 
   return (
-    <Layout>
-      <main>
-        <div className="container-fluid">
-          <header>
-            <div className="col-md-12 pt-3">
-              <h1 className="display-4 font-weight-bold text-center">
-                Programming blogs and tutorials
-              </h1>
-            </div>
-            <section>
-              <div className="pb-2 text-center">
-                {showAllCategories()}
-                <br />
-                {showAllTags()}
+    <>
+      {head()}
+      <Layout>
+        <main>
+          <div className="container-fluid">
+            <header>
+              <div className="col-md-12 pt-3">
+                <h1 className="display-4 font-weight-bold text-center">
+                  Programming blogs and tutorials
+                </h1>
               </div>
-            </section>
-          </header>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">{showAllBlogs()}</div>
+              <section>
+                <div className="pb-2 text-center">
+                  {showAllCategories()}
+                  <br />
+                  {showAllTags()}
+                </div>
+              </section>
+            </header>
           </div>
-        </div>
-      </main>
-    </Layout>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-12">{showAllBlogs()}</div>
+            </div>
+          </div>
+        </main>
+      </Layout>
+    </>
   );
 };
 
@@ -69,4 +86,4 @@ Blogs.getInitialProps = () => {
   });
 };
 
-export default Blogs;
+export default withRouter(Blogs);
