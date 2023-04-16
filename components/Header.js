@@ -33,6 +33,13 @@ const Header = () => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav navbar style={{ cursor: 'pointer' }} className="ms-auto">
+            <>
+              <NavItem>
+                <Link href="/blogs">
+                  <NavLink>Blogs</NavLink>
+                </Link>
+              </NavItem>
+            </>
             {!isAuth() && (
               <>
                 <NavItem>
