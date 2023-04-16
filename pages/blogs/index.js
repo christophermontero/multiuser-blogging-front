@@ -1,16 +1,29 @@
-import { listBlogsWithCategoriesAndTags } from '../../actions/blog';
+import Link from 'next/link';
 import Layout from '../../components/Layout';
 import Card from '../../components/blog/Card';
 
 const Blogs = ({ blogs, categories, tags, size }) => {
-  const showAllBlogs = () => {
-    return blogs.map((blog, i) => (
+  const showAllBlogs = () =>
+    blogs.map((blog, i) => (
       <article key={i}>
         <Card blog={blog} />
         <hr />
       </article>
     ));
-  };
+
+  const showAllCategories = () =>
+    categories.map((category, i) => (
+      <Link key={i} href={`/categories/${category.slug}`}>
+        <a className="btn btn-primary mx-1 mt-3">{category.name}</a>
+      </Link>
+    ));
+
+  const showAllTags = () =>
+    tags.map((tag, i) => (
+      <Link key={i} href={`/tags/${tag.slug}`}>
+        <a className="btn btn-outline-info mx-1 mt-3">{tag.name}</a>
+      </Link>
+    ));
 
   return (
     <Layout>
@@ -23,7 +36,11 @@ const Blogs = ({ blogs, categories, tags, size }) => {
               </h1>
             </div>
             <section>
-              <p>Show categories and tags</p>
+              <div className="pb-2 text-center">
+                {showAllCategories()}
+                <br />
+                {showAllTags()}
+              </div>
             </section>
           </header>
         </div>
