@@ -1,12 +1,47 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
+import { useState } from 'react';
 import { listBlogsWithCategoriesAndTags } from '../../actions/blog';
 import Layout from '../../components/Layout';
 import Card from '../../components/blog/Card';
 import { APP_NAME, DOMAIN } from '../../config';
 
-const Blogs = ({ blogs, categories, tags, size, router }) => {
+const Blogs = ({
+  blogs,
+  categories,
+  tags,
+  totalBlogs,
+  blogsLimit,
+  blogsSkip,
+  router
+}) => {
+  const [limit, setLimit] = useState(blogsLimit);
+  const [skip, setSkip] = useState(0);
+  const [size, setSize] = useState(totalBlogs);
+  const [loadedBlogs, setLoadedBlogs] = useState([]);
+
+  const loadMore = () => {
+    let toSkip = skip + limit;
+    listBlogsWithCategoriesAndTags(toSkip, limit).then((data) => {
+      if (data.error) {
+        console.log(error);
+      } else {
+        setLoadedBlogs([...loadedBlogs, ...data.blogs]);
+        setSize(data.size);
+        setSkip(data.skip);
+      }
+    });
+  };
+
+  const loadMoreButton = () =>
+    size > 0 &&
+    size >= limit && (
+      <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
+        Load more
+      </button>
+    );
+
   const head = () => (
     <Head>
       <title>Programming blogs and tutorials | {APP_NAME}</title>
@@ -17,6 +52,7 @@ const Blogs = ({ blogs, categories, tags, size, router }) => {
       <link rel="canonical" href={`${DOMAIN}/blogs`} />
     </Head>
   );
+
   const showAllBlogs = () =>
     blogs.map((blog, i) => (
       <article key={i}>
@@ -39,6 +75,15 @@ const Blogs = ({ blogs, categories, tags, size, router }) => {
       </Link>
     ));
 
+  const showAllLoadedBlogs = () => {
+    return loadedBlogs.map((blog, i) => (
+      <article key={i}>
+        <Card blog={blog} />
+        <hr />
+      </article>
+    ));
+  };
+
   return (
     <>
       {head()}
@@ -60,11 +105,9 @@ const Blogs = ({ blogs, categories, tags, size, router }) => {
               </section>
             </header>
           </div>
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-md-12">{showAllBlogs()}</div>
-            </div>
-          </div>
+          <div className="container-fluid">{showAllBlogs()}</div>
+          <div className="container-fluid">{showAllLoadedBlogs()}</div>
+          <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </main>
       </Layout>
     </>
@@ -72,7 +115,10 @@ const Blogs = ({ blogs, categories, tags, size, router }) => {
 };
 
 Blogs.getInitialProps = () => {
-  return listBlogsWithCategoriesAndTags().then((data) => {
+  let skip = 0,
+    limit = 2;
+
+  return listBlogsWithCategoriesAndTags(skip, limit).then((data) => {
     if (data.error) {
       console.log(data.error);
     } else {
@@ -80,7 +126,9 @@ Blogs.getInitialProps = () => {
         blogs: data.blogs,
         categories: data.categories,
         tags: data.tags,
-        size: data.size
+        totalBlogs: data.size,
+        blogsLimit: limit,
+        blogsSkip: skip
       };
     }
   });
