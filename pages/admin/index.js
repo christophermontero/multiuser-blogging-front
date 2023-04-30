@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import Admin from '../../components/auth/Admin';
 import Layout from '../../components/Layout';
+import Admin from '../../components/auth/Admin';
 
 const AdminIndex = () => {
   return (
@@ -21,6 +21,9 @@ const AdminIndex = () => {
                 </li>
                 <li className="list-group-item">
                   <Link href="/admin/blog">Create blog</Link>
+                </li>
+                <li className="list-group-item">
+                  <Link href="/admin/blogs">Update/Delete blog</Link>
                 </li>
               </ul>
             </div>

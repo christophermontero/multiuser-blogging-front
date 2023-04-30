@@ -1,21 +1,18 @@
-import dynamic from 'next/dynamic';
-import Admin from '../../components/auth/Admin';
 import Layout from '../../components/Layout';
-const CreateBlog = dynamic(() => import('../../components/blogs/CreateBlog'), {
-  ssr: false
-});
+import Admin from '../../components/auth/Admin';
+import ReadBlog from '../../components/blogs/BlogRead';
 
-const Blog = () => {
+const Blogs = () => {
   return (
     <Layout>
       <Admin>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-3 pb-3">
-              <h2>Create new blog</h2>
+              <h2>Manage blogs</h2>
             </div>
             <div className="col-md-12">
-              <CreateBlog />
+              <ReadBlog />
             </div>
           </div>
         </div>
@@ -24,4 +21,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Blogs;

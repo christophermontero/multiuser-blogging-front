@@ -1,10 +1,10 @@
 import { withRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getCookie } from '../actions/auth';
-import { createBlog } from '../actions/blog';
-import { getCategories } from '../actions/category';
-import { getTags } from '../actions/tag';
-import Editor from './Editor';
+import { getCookie } from '../../actions/auth';
+import { createBlog } from '../../actions/blog';
+import { getCategories } from '../../actions/category';
+import { getTags } from '../../actions/tag';
+import Editor from '../Editor';
 
 const CreateBlog = ({ router }) => {
   const blogLocalStore = () => {
