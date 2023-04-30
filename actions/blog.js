@@ -63,7 +63,7 @@ export const listRelatedBlogs = (blog, limit) => {
 };
 
 export const list = () => {
-  return fetch(`${API}/blogs`, {
+  return fetch(`${API}/blog`, {
     method: 'GET'
   })
     .then((response) => {
