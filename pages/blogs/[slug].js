@@ -24,7 +24,7 @@ const SingleBlog = ({ blog, query }) => {
 
   useEffect(() => {
     loadRelated();
-  }, [related]);
+  }, [blog]);
 
   const head = () => (
     <Head>
