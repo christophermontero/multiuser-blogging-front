@@ -45,3 +45,19 @@ export const singleBlog = (slug) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const listRelatedBlogs = (blog, limit) => {
+  return fetch(`${API}/blog/related`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    // send the blog id and limit to the backend
+    body: JSON.stringify({ blog, limit })
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

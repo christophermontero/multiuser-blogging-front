@@ -3,11 +3,29 @@ import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
 import { withRouter } from 'next/router';
-import { singleBlog } from '../../actions/blog';
+import { useEffect, useState } from 'react';
+import { listRelatedBlogs, singleBlog } from '../../actions/blog';
 import Layout from '../../components/Layout';
+import SmallCard from '../../components/blog/SmallCard';
 import { API, APP_NAME } from '../../config';
 
 const SingleBlog = ({ blog, query }) => {
+  const [related, setRelated] = useState([]);
+
+  const loadRelated = () => {
+    listRelatedBlogs(blog).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRelated(data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadRelated();
+  }, [related]);
+
   const head = () => (
     <Head>
       <title>
@@ -39,6 +57,14 @@ const SingleBlog = ({ blog, query }) => {
             {tag.name}
           </a>
         </Link>
+      )),
+    showRelatedBlogs = (related) =>
+      related.map((blog, i) => (
+        <div className="col-md-4" key={i}>
+          <article>
+            <SmallCard blog={blog} />
+          </article>
+        </div>
       ));
 
   return (
@@ -84,7 +110,7 @@ const SingleBlog = ({ blog, query }) => {
             <div className="container pb-5">
               <h4 className="text-center pt-5 pb-5 h2">Related blogs</h4>
               <hr />
-              <p>Show related blogs</p>
+              <div className="row">{showRelatedBlogs(related)}</div>
             </div>
             <div className="container pb-5">
               <p>Show comments</p>
