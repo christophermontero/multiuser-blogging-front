@@ -18,6 +18,7 @@ export const createBlog = (blog, token) => {
 };
 
 export const listBlogsWithCategoriesAndTags = (skip, limit) => {
+  console.log('skip', skip, 'limit', limit);
   const data = {
     limit,
     skip

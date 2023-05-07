@@ -13,13 +13,14 @@ const Blogs = ({
   tags,
   totalBlogs,
   blogsLimit,
-  blogsSkip,
-  router
+  blogSkip,
+  blogLoadedLength
 }) => {
   const [limit, setLimit] = useState(blogsLimit);
-  const [skip, setSkip] = useState(0);
+  const [skip, setSkip] = useState(blogSkip);
   const [size, setSize] = useState(totalBlogs);
   const [loadedBlogs, setLoadedBlogs] = useState([]);
+  const [loadedBlogsLength, setLoadedBlogsLength] = useState(blogLoadedLength);
 
   const loadMore = () => {
     let toSkip = skip + limit;
@@ -27,16 +28,19 @@ const Blogs = ({
       if (data.error) {
         console.log(error);
       } else {
-        setLoadedBlogs([...loadedBlogs, ...data.blogs]);
+        setLoadedBlogs((prevBlogs) => [...prevBlogs, ...data.blogs]);
         setSize(data.size);
-        setSkip(data.skip);
+        setSkip(toSkip);
+        setLoadedBlogsLength(
+          (prevBlogsLength) => prevBlogsLength + data.blogs.length
+        );
       }
     });
   };
 
   const loadMoreButton = () =>
     size > 0 &&
-    size >= limit && (
+    loadedBlogsLength < size && (
       <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
         Load more
       </button>
@@ -122,13 +126,15 @@ Blogs.getInitialProps = () => {
     if (data.error) {
       console.log(data.error);
     } else {
+      console.log(data.size, limit, skip);
       return {
         blogs: data.blogs,
         categories: data.categories,
         tags: data.tags,
         totalBlogs: data.size,
         blogsLimit: limit,
-        blogsSkip: skip
+        blogSkip: skip,
+        blogLoadedLength: data.blogs.length
       };
     }
   });
