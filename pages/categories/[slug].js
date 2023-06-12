@@ -31,7 +31,6 @@ Category.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(data.error);
     }
-    console.log(data);
     return { category: data.category, blogs: data.blogs };
   });
 };

@@ -80,7 +80,6 @@ const Blogs = ({
     ));
 
   const showAllLoadedBlogs = () => {
-    console.log(loadedBlogs);
     return loadedBlogs.map((blog, i) => (
       <article key={i}>
         <Card blog={blog} />

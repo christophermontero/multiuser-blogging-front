@@ -27,7 +27,6 @@ const Tag = ({ tag, blogs }) => {
 };
 
 Tag.getInitialProps = ({ query }) => {
-  console.log(query);
   return singleTag(query.slug).then((data) => {
     if (data.error) {
       console.log(data.error);
