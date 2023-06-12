@@ -126,7 +126,6 @@ Blogs.getInitialProps = () => {
     if (data.error) {
       console.log(data.error);
     } else {
-      console.log(data.size, limit, skip);
       return {
         blogs: data.blogs,
         categories: data.categories,
