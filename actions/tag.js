@@ -42,3 +42,14 @@ export const removeTag = (name, token) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const singleTag = (name) => {
+  const fetchOpt = {
+    method: 'GET'
+  };
+  return fetch(`${API}/tag/${name}`, fetchOpt)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
