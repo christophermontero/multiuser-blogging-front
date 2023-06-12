@@ -1,8 +1,10 @@
-import { withRouter } from 'next/router';
+import Router, { withRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { singleBlog } from '../../actions/blog';
+import { getCookie, isAuth } from '../../actions/auth';
+import { singleBlog, updateBlog } from '../../actions/blog';
 import { getCategories } from '../../actions/category';
 import { getTags } from '../../actions/tag';
+import { API } from '../../config';
 import Editor from '../Editor';
 
 const UpdateBlog = ({ router }) => {
@@ -19,6 +21,7 @@ const UpdateBlog = ({ router }) => {
   });
 
   const { title, photo } = values;
+  const token = getCookie('token');
 
   useEffect(() => {
     setEditorLoaded(true);
@@ -34,7 +37,23 @@ const UpdateBlog = ({ router }) => {
   };
 
   const editBlog = (e) => {
-    console.log('update blog');
+    e.preventDefault();
+    updateBlog(values.formData, token, router.query.slug).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          title: '',
+          success: `Blog titled "${data.title}" is successfully updated`
+        });
+        if (isAuth() && isAuth().role === 1) {
+          Router.replace(`/admin/blogs/${router.query.slug}`);
+        } else if (isAuth() && isAuth().role === 0) {
+          Router.replace(`/user`);
+        }
+      }
+    });
   };
 
   const handleChange = (name) => (e) => {
@@ -43,10 +62,28 @@ const UpdateBlog = ({ router }) => {
     setValues({
       ...values,
       [name]: value,
-      formData,
+      formData: values.formData,
       error: ''
     });
   };
+
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: values.error ? '' : 'none' }}
+    >
+      {values.error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-success"
+      style={{ display: values.success ? '' : 'none' }}
+    >
+      {values.success}
+    </div>
+  );
 
   const updateBlogForm = () => {
     return (
@@ -201,8 +238,16 @@ const UpdateBlog = ({ router }) => {
         <div className="col-md-8">
           {updateBlogForm()}
           <div className="pt-3">
-            <p>Show success and error msg</p>
+            {showError()}
+            {showSuccess()}
           </div>
+          {body && (
+            <img
+              src={`${API}/blog/photo/${router.query.slug}`}
+              alt={title}
+              style={{ width: '100%' }}
+            />
+          )}
         </div>
         <div className="col-md-4">
           <div>
