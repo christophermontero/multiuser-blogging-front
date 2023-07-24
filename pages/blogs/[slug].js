@@ -75,7 +75,7 @@ const SingleBlog = ({ blog, query }) => {
           <article>
             <div className="container-fluid">
               <section>
-                <div className="row" style={{ marginTop: '-30px' }}>
+                <div className="row pt-3">
                   <img
                     src={`${API}/blog/photo/${query.slug}`}
                     alt={blog.title}

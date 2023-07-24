@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import NProgress from 'nprogress';
 import { useRouter } from 'next/router';
+import Search from './blog/Search';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +26,7 @@ const Header = () => {
   router.events.on('routeChangeError', (url) => NProgress.done());
 
   return (
-    <div>
+    <>
       <Navbar color="light" light expand="sm">
         <Link href="/">
           <NavLink className="text-dark fw-bold">{APP_NAME}</NavLink>
@@ -85,7 +86,8 @@ const Header = () => {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+      <Search />
+    </>
   );
 };
 
