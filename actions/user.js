@@ -29,7 +29,7 @@ export const getProfile = (token) => {
 };
 
 export const update = (token, user) => {
-  return fetch(`${API}/user/update`, {
+  return fetch(`${API}/user/profile`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
