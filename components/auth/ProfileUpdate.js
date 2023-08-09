@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCookie } from '../../actions/auth';
 import { getProfile, update } from '../../actions/user';
+import { API } from '../../config';
 
 const ProfileUpdate = () => {
   const [values, setValues] = useState({
@@ -137,7 +138,7 @@ const ProfileUpdate = () => {
       <div className="form-group my-1">
         <label className="text-muted">Password</label>
         <input
-          type="text"
+          type="password"
           onChange={handleChange('password')}
           value={password}
           className="form-control"
@@ -151,13 +152,40 @@ const ProfileUpdate = () => {
     </form>
   );
 
+  const showError = () => (
+    <div
+      className="alert alert-danger"
+      style={{ display: error ? '' : 'none' }}
+    >
+      All fields are required
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div
+      className="alert alert-success"
+      style={{ display: success ? '' : 'none' }}
+    >
+      Profile updated
+    </div>
+  );
+
+  const showLoading = () => (
+    <div
+      className="alert alert-info"
+      style={{ display: loading ? '' : 'none' }}
+    >
+      Loading...
+    </div>
+  );
+
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-md-4">
             <img
-              src="https://via.placeholder.com/150x150.png?text=Profile"
+              src={`${API}/user/photo/${username}`}
               className="img img-fluid img-thumbnail mb-3"
               style={{ maxHeight: 'auto', maxWidth: '100%' }}
               alt="profile photo"
@@ -165,6 +193,9 @@ const ProfileUpdate = () => {
           </div>
           <div className="col-md-8 mb-5">
             <h2>Update profile</h2>
+            {showSuccess()}
+            {showError()}
+            {showLoading()}
             {profileUpdateForm()}
           </div>
         </div>
