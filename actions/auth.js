@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
-import { API } from '../config';
 import cookie from 'js-cookie';
+import { API } from '../config';
 
 export const signup = (user) => {
   const fetchOpt = {
@@ -98,6 +98,17 @@ export const isAuth = () => {
       return JSON.parse(localStorage.getItem('user'));
     } else {
       return false;
+    }
+  }
+};
+
+export const updateUser = (user, next) => {
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem('user')) {
+      let auth = JSON.parse(localStorage.getItem('user'));
+      auth = user;
+      localStorage.setItem('user', JSON.stringify(auth));
+      next();
     }
   }
 };
