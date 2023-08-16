@@ -82,7 +82,7 @@ const Header = () => {
                   </NavLink>
                 </NavItem>
                 <NavItem>
-                  <Link href="/user/blog/create">
+                  <Link href="/user/blog">
                     <NavLink className="btn btn-primary text-light">
                       Write a blog
                     </NavLink>
