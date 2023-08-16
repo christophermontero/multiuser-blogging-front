@@ -13,8 +13,9 @@ const ProfileUpdate = () => {
     success: false,
     loading: false,
     photo: '',
-    userData: ''
+    userData: new FormData()
   });
+  const [photoUrl, setPhotoUrl] = useState('');
 
   const token = getCookie('token');
   const {
@@ -26,38 +27,49 @@ const ProfileUpdate = () => {
     error,
     success,
     loading,
-    photo,
     userData
   } = values;
 
-  const init = () =>
-    getProfile(token).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          username: data.user.username,
-          name: data.user.name,
-          email: data.user.email,
-          about: data.user.about
-        });
-      }
-    });
+  const init = () => {
+    getProfile(token)
+      .then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            ...values,
+            username: data.user.username,
+            name: data.user.name,
+            email: data.user.email,
+            about: data.user.about
+          });
+          setPhotoUrl(`${API}/user/photo/${data.user.username}`);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching user profile:', error);
+      });
+  };
 
   useEffect(() => {
     init();
+
+    return () => {
+      setValues({
+        ...values,
+        loading: false
+      });
+    };
   }, []);
 
   const handleChange = (name) => (e) => {
     const value = name === 'photo' ? e.target.files[0] : e.target.value;
-    let userFormData = new FormData();
+    userData.set(name, value);
 
-    userFormData.set(name, value);
     setValues({
       ...values,
       [name]: value,
-      userData: userFormData,
+      userData,
       error: false,
       success: false
     });
@@ -66,28 +78,40 @@ const ProfileUpdate = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setValues({ ...values, loading: true });
-    update(token, userData).then((data) => {
-      if (data.error) {
+
+    update(token, userData)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error,
+            success: false,
+            loading: false
+          });
+        } else {
+          updateUser(data, () => {
+            setValues({
+              ...values,
+              username: data.username,
+              name: data.name,
+              email: data.email,
+              about: data.about,
+              success: true,
+              loading: false
+            });
+            setPhotoUrl(`${API}/user/photo/${data.username}`);
+          });
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating user profile:', error);
         setValues({
           ...values,
-          error: data.error,
+          error: 'An error occurred while updating your profile.',
           success: false,
           loading: false
         });
-      } else {
-        updateUser(data, () => {
-          setValues({
-            ...values,
-            username: data.username,
-            name: data.name,
-            email: data.email,
-            about: data.about,
-            success: true,
-            loading: false
-          });
-        });
-      }
-    });
+      });
   };
 
   const profileUpdateForm = () => (
@@ -101,7 +125,7 @@ const ProfileUpdate = () => {
           className="form-control"
         />
       </div>
-      <div className="form-group  my-1">
+      <div className="form-group my-1">
         <label className="text-muted">Username</label>
         <input
           type="text"
@@ -187,7 +211,7 @@ const ProfileUpdate = () => {
         <div className="row">
           <div className="col-md-4">
             <img
-              src={`${API}/user/photo/${username}`}
+              src={photoUrl}
               className="img img-fluid img-thumbnail mb-3"
               style={{ maxHeight: 'auto', maxWidth: '100%' }}
               alt="profile photo"
