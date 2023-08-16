@@ -81,6 +81,13 @@ const Header = () => {
                     Signout
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <Link href="/user/blog/create">
+                    <NavLink className="btn btn-primary text-light">
+                      Write a blog
+                    </NavLink>
+                  </Link>
+                </NavItem>
               </>
             )}
           </Nav>
