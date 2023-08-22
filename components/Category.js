@@ -59,40 +59,44 @@ const Category = () => {
   };
 
   const deleteCategory = (slug) => {
-    removeCategory(slug, token).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error
-        });
-      } else {
-        setValues({
-          ...values,
-          name: '',
-          removed: true,
-          reload: !reload
-        });
-      }
-    });
+    removeCategory(slug, token)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error
+          });
+        } else {
+          setValues({
+            ...values,
+            name: '',
+            removed: true,
+            reload: !reload
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    createCategory({ name }, token).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error
-        });
-      } else {
-        setValues({
-          ...values,
-          name: '',
-          success: true,
-          reload: !reload
-        });
-      }
-    });
+    createCategory({ name }, token)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error
+          });
+        } else {
+          setValues({
+            ...values,
+            name: '',
+            success: true,
+            reload: !reload
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleChange = (e) => {

@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { getCookie, isAuth } from '../../actions/auth';
 import { list, removeBlog } from '../../actions/blog';
 
-export const ReadBlog = () => {
+export const ReadBlog = ({ username }) => {
   const [blogs, setBlogs] = useState([]);
   const [message, setMessage] = useState('');
   const token = getCookie('token');
 
   const loadBlogs = () => {
-    list()
+    list(username)
       .then((data) => {
         if (data.error) {
           console.log(data.error);
@@ -26,22 +26,24 @@ export const ReadBlog = () => {
   const deleteBlog = (slug) => {
     const answer = window.confirm('Are you sure you want to delete your blog?');
     if (answer) {
-      removeBlog(slug, token).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          setMessage(data.message);
-          loadBlogs();
-        }
-      });
+      removeBlog(slug, token)
+        .then((data) => {
+          if (data.error) {
+            console.log(data.error);
+          } else {
+            setMessage(data.message);
+            loadBlogs();
+          }
+        })
+        .catch((err) => console.log(err));
     }
   };
 
   const showUpdateButton = (blog) => {
-    if (isAuth() && isAuth().role === 0) {
+    if (isAuth() && !isAuth().role) {
       return (
-        <Link href={`/user/${blog.slug}`}>
-          <a className="btn btn-sm btn-warning">Update</a>
+        <Link href={`/user/blogs/${blog.slug}`}>
+          <a className="btn btn-sm btn-warning mx-2">Update</a>
         </Link>
       );
     } else if (isAuth() && isAuth().role === 1) {

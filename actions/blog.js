@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { API } from '../config';
 import queryString from 'query-string';
-import { isAuth } from './auth';
+import { handleResponse, isAuth } from './auth';
 
 export const createBlog = (blog, token) => {
   let buildBlogEndpoint;
@@ -22,6 +22,7 @@ export const createBlog = (blog, token) => {
 
   return fetch(buildBlogEndpoint, fetchOpt)
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.log(err));
@@ -72,8 +73,16 @@ export const listRelatedBlogs = (blog, limit) => {
     .catch((err) => console.log(err));
 };
 
-export const list = () => {
-  return fetch(`${API}/blog`, {
+export const list = (username) => {
+  let buildBlogEndpoint;
+
+  if (username) {
+    buildBlogEndpoint = `${API}/blog/${username}/blogs`;
+  } else {
+    buildBlogEndpoint = `${API}/blogs`;
+  }
+
+  return fetch(buildBlogEndpoint, {
     method: 'GET'
   })
     .then((response) => {
@@ -83,7 +92,15 @@ export const list = () => {
 };
 
 export const removeBlog = (slug, token) => {
-  return fetch(`${API}/blog/${slug}`, {
+  let buildBlogEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    buildBlogEndpoint = `${API}/blog/${slug}`;
+  } else if (isAuth() && !isAuth().role) {
+    buildBlogEndpoint = `${API}/user/blog/${slug}`;
+  }
+
+  return fetch(buildBlogEndpoint, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',
@@ -91,13 +108,22 @@ export const removeBlog = (slug, token) => {
     }
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.log(err));
 };
 
 export const updateBlog = (blog, token, slug) => {
-  return fetch(`${API}/blog/${slug}`, {
+  let buildBlogEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    buildBlogEndpoint = `${API}/blog/${slug}`;
+  } else if (isAuth() && !isAuth().role) {
+    buildBlogEndpoint = `${API}/user/blog/${slug}`;
+  }
+
+  return fetch(buildBlogEndpoint, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
@@ -106,6 +132,7 @@ export const updateBlog = (blog, token, slug) => {
     body: blog
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.log(err));

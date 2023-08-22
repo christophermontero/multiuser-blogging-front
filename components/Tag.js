@@ -53,40 +53,44 @@ const Tag = () => {
   };
 
   const deleteTag = (name) => {
-    removeTag(name, token).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error
-        });
-      } else {
-        setValues({
-          ...values,
-          name: '',
-          removed: true,
-          reload: !reload
-        });
-      }
-    });
+    removeTag(name, token)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error
+          });
+        } else {
+          setValues({
+            ...values,
+            name: '',
+            removed: true,
+            reload: !reload
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    createTag({ name }, token).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error
-        });
-      } else {
-        setValues({
-          ...values,
-          name: '',
-          success: true,
-          reload: !reload
-        });
-      }
-    });
+    createTag({ name }, token)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error
+          });
+        } else {
+          setValues({
+            ...values,
+            name: '',
+            success: true,
+            reload: !reload
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleChange = (e) => {

@@ -107,25 +107,27 @@ const CreateBlog = ({ router }) => {
   const publishBlog = (e) => {
     e.preventDefault();
     if (body) formData.append('body', body);
-    createBlog(formData, token).then((data) => {
-      if (data.error) {
-        setValues({
-          ...values,
-          error: data.error
-        });
-      } else {
-        setValues({
-          ...values,
-          title: '',
-          photo: '',
-          error: '',
-          success: `A new blog titled ${data.title} was created`
-        });
-        setBody('');
-        setCategories([]);
-        setTags([]);
-      }
-    });
+    createBlog(formData, token)
+      .then((data) => {
+        if (data.error) {
+          setValues({
+            ...values,
+            error: data.error
+          });
+        } else {
+          setValues({
+            ...values,
+            title: '',
+            photo: '',
+            error: '',
+            success: `A new blog titled ${data.title} was created`
+          });
+          setBody('');
+          setCategories([]);
+          setTags([]);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const showCategories = categories && (

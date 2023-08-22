@@ -38,22 +38,24 @@ const UpdateBlog = ({ router }) => {
 
   const editBlog = (e) => {
     e.preventDefault();
-    updateBlog(values.formData, token, router.query.slug).then((data) => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setValues({
-          ...values,
-          title: '',
-          success: `Blog titled "${data.title}" is successfully updated`
-        });
-        if (isAuth() && isAuth().role === 1) {
-          Router.replace(`/admin/blogs/${router.query.slug}`);
-        } else if (isAuth() && isAuth().role === 0) {
-          Router.replace(`/user`);
+    updateBlog(values.formData, token, router.query.slug)
+      .then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({
+            ...values,
+            title: '',
+            success: `Blog titled "${data.title}" is successfully updated`
+          });
+          if (isAuth() && isAuth().role === 1) {
+            Router.replace(`/admin/blogs/${router.query.slug}`);
+          } else if (isAuth() && !isAuth().role) {
+            Router.replace(`/user`);
+          }
         }
-      }
-    });
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleChange = (name) => (e) => {
