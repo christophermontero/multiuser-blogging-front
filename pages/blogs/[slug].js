@@ -8,6 +8,7 @@ import { listRelatedBlogs, singleBlog } from '../../actions/blog';
 import Layout from '../../components/Layout';
 import SmallCard from '../../components/blog/SmallCard';
 import { API, APP_NAME } from '../../config';
+import DisqusThread from '../../components/DisqusThread';
 
 const SingleBlog = ({ blog, query }) => {
   const [related, setRelated] = useState([]);
@@ -67,6 +68,18 @@ const SingleBlog = ({ blog, query }) => {
         </div>
       ));
 
+  const showComments = () => {
+    return (
+      <div>
+        <DisqusThread
+          id={blog.id}
+          title={blog.title}
+          path={`/blog/${blog.slug}`}
+        />
+      </div>
+    );
+  };
+
   return (
     <>
       {head()}
@@ -116,7 +129,7 @@ const SingleBlog = ({ blog, query }) => {
               <div className="row">{showRelatedBlogs(related)}</div>
             </div>
             <div className="container pb-5">
-              <p>Show comments</p>
+              <div className="container pt-2 pb-5">{showComments()}</div>
             </div>
           </article>
         </main>
