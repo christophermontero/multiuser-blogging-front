@@ -40,6 +40,11 @@ const Header = () => {
                   <NavLink>Blogs</NavLink>
                 </Link>
               </NavItem>
+              <NavItem>
+                <Link href="/contact">
+                  <NavLink>Contact</NavLink>
+                </Link>
+              </NavItem>
             </>
             {!isAuth() && (
               <>
@@ -57,7 +62,7 @@ const Header = () => {
             )}
             {isAuth() && (
               <>
-                {isAuth() && isAuth().role === 1 ? (
+                {isAuth().role === 1 ? (
                   <NavItem>
                     <Link href="/admin">
                       <NavLink>{`${isAuth().name}'s Dashboard`}</NavLink>
