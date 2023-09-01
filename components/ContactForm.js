@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { sendContactForm } from '../actions/contact';
 
-const ContactForm = () => {
+const ContactForm = ({ authorEmail }) => {
   const [formData, setFormData] = useState({
     message: '',
     name: '',
@@ -25,7 +25,7 @@ const ContactForm = () => {
       buttonText: 'Sending...'
     });
 
-    sendContactForm({ name, email, message })
+    sendContactForm({ authorEmail, name, email, message })
       .then((data) => {
         if (data.error) {
           setFormStatus({ ...formStatus, error: data.error });

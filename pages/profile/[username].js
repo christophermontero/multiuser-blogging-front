@@ -2,6 +2,7 @@ import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
 import { userPublicProfile } from '../../actions/user';
+import ContactForm from '../../components/ContactForm';
 import Layout from '../../components/Layout';
 import { API, APP_NAME } from '../../config';
 
@@ -74,10 +75,10 @@ const UserPublicProfile = ({ user, blogs, query }) => {
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title bg-primary py-4 px-4 text-white">
-                    Recent blogs by {user.name}
+                    Message {user.name}
                   </h5>
                   <br />
-                  <p>Contact form</p>
+                  <ContactForm authorEmail={user.email} />
                 </div>
               </div>
             </div>
