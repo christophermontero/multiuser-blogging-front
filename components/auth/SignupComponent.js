@@ -1,5 +1,6 @@
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { isAuth, signup } from '../../actions/auth';
+import { isAuth, preSignup } from '../../actions/auth';
 
 const SignupComponent = () => {
   const [user, setUser] = useState({
@@ -22,7 +23,7 @@ const SignupComponent = () => {
     e.preventDefault();
     setUser({ ...user, loading: true, error: false });
     const u = { name, email, password };
-    signup(u).then((data) => {
+    preSignup(u).then((data) => {
       if (data.error) {
         setUser({
           ...user,
