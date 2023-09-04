@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import { authenticate, isAuth, signin } from '../../actions/auth';
@@ -93,6 +94,10 @@ const SigninComponent = () => {
       {showLoading()}
       {showMessage()}
       {showForm && signinForm()}
+      <br />
+      <Link href="/auth/password/forgot">
+        <a className="btn btn-outline-danger bt-sm">Forgot password</a>
+      </Link>
     </>
   );
 };

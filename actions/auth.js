@@ -128,3 +128,35 @@ export const updateUser = (user, next) => {
     }
   }
 };
+
+export const forgotPassword = (email) => {
+  const fetchOpt = {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(email)
+  };
+  return fetch(`${API}/auth/forgot-password`, fetchOpt)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const resetPassword = (resetPayload) => {
+  const fetchOpt = {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(resetPayload)
+  };
+  return fetch(`${API}/auth/reset-password`, fetchOpt)
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

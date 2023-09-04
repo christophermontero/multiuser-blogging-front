@@ -104,6 +104,10 @@ const SignupComponent = () => {
       {showLoading()}
       {showMessage()}
       {showForm && signupForm()}
+      <br />
+      <Link href="/auth/password/forgot">
+        <a className="btn btn-outline-danger bt-sm">Forgot password</a>
+      </Link>
     </>
   );
 };
